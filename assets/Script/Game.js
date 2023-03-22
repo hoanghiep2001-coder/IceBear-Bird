@@ -35,29 +35,74 @@ cc.Class({
 
   onLoad() {
     this.handleInitGame();
+
+    this.handleClickBirds();
   },
 
   handleInitGame() {
-    this.hanldeStartPositionOfBirds(this.Bird1, -60, 72, 1, -0.08, 0.08, false);
-    this.hanldeStartPositionOfBirds(this.Bird2, -85, 72, 1, -0.08, 0.08, true);
-    this.hanldeStartPositionOfBirds(this.Bird3, -110, 72, 1, -0.08, 0.08, false);
-    this.hanldeStartPositionOfBirds(this.Bird4, -140, 72, 1, -0.08, 0.08, true);
-    // this.hanldeStartPositionOfBirds(this.Bird5, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird6, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird7, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird8, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird9, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird10, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird11, -60, 72, 1, -0.08, 0.08);
-    // this.hanldeStartPositionOfBirds(this.Bird12, -60, 72, 1, -0.08, 0.08);
+    this.hanldeStartPositionOfBirds(this.Bird1, -50, 72, 1, -0.08, 0.08, false);
+    this.hanldeStartPositionOfBirds(this.Bird2, -75, 72, 1, -0.08, 0.08, true);
+    this.hanldeStartPositionOfBirds(
+      this.Bird3,
+      -105,
+      72,
+      1,
+      -0.08,
+      0.08,
+      false
+    );
+    this.hanldeStartPositionOfBirds(this.Bird4, -125, 72, 1, -0.08, 0.08, true);
+
+    this.hanldeStartPositionOfBirds(this.Bird5, 60, 32, 1, 0.08, 0.08, false);
+    this.hanldeStartPositionOfBirds(this.Bird6, 85, 32, 1, 0.08, 0.08, true);
+
+    this.hanldeStartPositionOfBirds(this.Bird7, 60, -48, 1, 0.08, 0.08, false);
+    this.hanldeStartPositionOfBirds(this.Bird8, 85, -48, 1, 0.08, 0.08, true);
+    this.hanldeStartPositionOfBirds(this.Bird9, 110, -48, 1, 0.08, 0.08, true);
+
+    this.hanldeStartPositionOfBirds(
+      this.Bird10,
+      -70,
+      -88,
+      1,
+      -0.08,
+      0.08,
+      false
+    );
+    this.hanldeStartPositionOfBirds(
+      this.Bird11,
+      -95,
+      -88,
+      1,
+      -0.08,
+      0.08,
+      false
+    );
+    this.hanldeStartPositionOfBirds(
+      this.Bird12,
+      -125,
+      -88,
+      1,
+      -0.08,
+      0.08,
+      false
+    );
   },
 
-  hanldeStartPositionOfBirds(node, posX, posY, duration, rotateX, rotateY, isRotate) {
+  hanldeStartPositionOfBirds(
+    node,
+    posX,
+    posY,
+    duration,
+    rotateX,
+    rotateY,
+    isRotate
+  ) {
     this.handleSetPosition(node, posX, posY, duration);
     this.handleSetRotateBird(node, rotateX, rotateY, duration, isRotate);
     this.scheduleOnce(() => {
       this.handleSetAnim(node, "grounding", "idle", false);
-    }, 1 );
+    }, 1);
   },
 
   handleSetPosition(node, posX, posY, duration) {
@@ -67,13 +112,16 @@ cc.Class({
   },
 
   handleSetRotateBird(node, rotateX, rotateY, duration, activeRotate = false) {
-
     const delayAction = cc.delayTime(duration);
-    const sequenceAction = cc.sequence(delayAction, cc.scaleTo(0, rotateX, rotateY));
+    const sequenceAction = cc.sequence(
+      delayAction,
+      cc.scaleTo(0, rotateX, rotateY)
+    );
 
-    if(activeRotate) {
-      console.log("check")
-      node.runAction(cc.sequence(cc.delayTime(0), cc.scaleTo(0, rotateX, rotateY)));
+    if (activeRotate) {
+      node.runAction(
+        cc.sequence(cc.delayTime(0), cc.scaleTo(0, rotateX, rotateY))
+      );
     } else {
       node.runAction(sequenceAction);
     }
@@ -85,8 +133,15 @@ cc.Class({
 
     this.scheduleOnce(() => {
       skeletonComp.setAnimation(0, idleAnim, true);
-    }, 1 );
-  }
+    }, 1);
+  },
+
+  handleClickBirds() {
+    console.log(this.Bird1.parent);
+    this.Bird1.children[0].on("touchend", () => {
+      console.log("check");
+    });
+  },
 
   // update (dt) {},
 });
